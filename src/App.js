@@ -1,98 +1,55 @@
 import logo from './logo.svg';
+import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
-import React, { useState, useEffect , useMemo} from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import React, {Component, useState, useEffect , useMemo} from "react";
 import { useTable } from "react-table";
 import "./Table.css";
 
-function App() {
-  const url = "http://localhost:8085/api/v1/card";
-  const [data, setData] = useState([]);
+import AccountsList from "./components/account-list";
+import CardsList from "./components/card-list";
+import AddAccount from "./components/add-account";
+import Account from "./components/account";
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          <Link to={"/"} className="navbar-brand">
+            Vooma CRUD App
+          </Link>
+          <div className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link to={"/"} className="nav-link">
+                Accounts
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/add-account"} className="nav-link">
+                Add Account
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/cards"} className="nav-link">
+                Cards
+              </Link>
+            </li>
+          </div>
+        </nav>
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(url, { mode: 'cors', method: "GET"});
-      const accounts = await response.json();
-      console.log(accounts)
-      var account_cards = accounts;
-      account_cards.map((data, idx) => (
-        account_cards[idx].cardType =  account_cards[idx].cardType == 0 ? "Physical" : "Virtual"
-      ));
-      account_cards.map((data, idx) => (
-        account_cards[idx].account = account_cards[idx].account.id
-      ));
-      setData(account_cards);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  
-  //const Table = ({ data }) => {
-    // const columns = useMemo(
-    //   () => [
-    //     { Header: "ID", accessor: "id" },
-    //     { Header: "IBAN", accessor: "iban" },
-    //     { Header: "BANK CODE", accessor: "bankCode" },
-    //     { Header: "CUSTOMER ID", accessor: "customerId" }
-        
-    //   ],
-    //   []
-    // );
-
-    const columns = useMemo(
-      () => [
-        { Header: "ID", accessor: "id" },
-        { Header: "CARD ALIAS", accessor: "cardAlias" },
-        { Header: "CARD TYPE", accessor: "cardType" },
-        { Header: "ACCOUNT", accessor: "account" }
-        
-      ],
-      []
-    );
-  
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable({ columns, data });
-
- 
-  return (
-    <div className="App">
-      <h1 style={{ color: "green" }}>List of Vooma Cards</h1>
-      <div className="table-container">
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="container mt-3">
+          <Routes>
+            <Route path="/" element={<AccountsList/>} />
+            <Route path="/cards" element={<CardsList/>} />
+            <Route path="/add-account" element={<AddAccount/>} />
+            <Route path="/accounts/:id" element={<Account/>} />
+          </Routes>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
 
 export default App;
