@@ -2,27 +2,27 @@ import http from "../http-common";
 
 class AccountDataService {
   getAll() {
-    return http.get("/account");
+    return http.get("/accounts");
   }
 
   get(id) {
-    return http.get(`/account/${id}`);
+    return http.get(`/accounts/${id}`);
   }
 
   create(data) {
-    return http.post("/account", data);
+    return http.post("/accounts", data);
   }
 
   update(id, data) {
-    return http.put(`/account/${id}`, data);
+    return http.put(`/accounts/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/account/${id}`);
+    return http.delete(`/accounts/${id}`);
   }
 
   findByIban(iban) {
-    return http.get(`/account?iban=${iban}`);
+    return http.get(`/accounts?iban=${iban}`);
   }
 }
 

@@ -2,27 +2,27 @@ import http from "../http-common";
 
 class CardDataService {
   getAll() {
-    return http.get("/card");
+    return http.get("/cards");
   }
 
   get(id) {
-    return http.get(`/card/${id}`);
+    return http.get(`/cards/${id}`);
   }
 
   create(data) {
-    return http.post("/card", data);
+    return http.post("/cards", data);
   }
 
   update(id, data) {
-    return http.put(`/card/${id}`, data);
+    return http.put(`/cards/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/card/${id}`);
+    return http.delete(`/cards/${id}`);
   }
 
   findByAlias(alias) {
-    return http.get(`/card?alias=${alias}`);
+    return http.get(`/cards?alias=${alias}`);
   }
 }
 

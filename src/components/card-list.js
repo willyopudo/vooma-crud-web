@@ -36,9 +36,9 @@ export default class CardsList extends Component {
     CardDataService.getAll()
       .then(response => {
         this.setState({
-          cards: response.data
+          cards: response.data.content
         });
-        console.log(response.data);
+        console.log(response.data.content);
       })
       .catch(e => {
         console.log(e);
@@ -63,7 +63,7 @@ export default class CardsList extends Component {
   removeAllCards() {
     CardDataService.deleteAll()
       .then(response => {
-        console.log(response.data);
+        console.log(response.data.content);
         this.refreshList();
       })
       .catch(e => {
@@ -72,12 +72,12 @@ export default class CardsList extends Component {
   }
 
   searchTitle() {
-    CardDataService.findByTitle(this.state.searchTitle)
+    CardDataService.findByAlias(this.state.searchTitle)
       .then(response => {
         this.setState({
-          cards: response.data
+          cards: response.data.content
         });
-        console.log(response.data);
+        console.log(response.data.content);
       })
       .catch(e => {
         console.log(e);
@@ -149,7 +149,7 @@ export default class CardsList extends Component {
                 <label>
                   <strong>Card Type:</strong>
                 </label>{" "}
-                { currentCard.cardType == 0 ? "Physical" : "Virtual"}
+                { currentCard.cardType === 0 ? "Physical" : "Virtual"}
               </div>
               <div>
                 <label>
